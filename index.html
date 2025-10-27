@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carregando PWA</title>
-    <link rel="manifest" href="/androidauthority/manifest.json">
+    <title>Insta</title> <link rel="manifest" href="/insta/manifest.json">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#FFFFFF">
 
     <style>
@@ -15,25 +16,24 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #FFFFFF;
+            background-color: #FFFFFF; /* Garante que o fundo é branco */
+            overflow: hidden; /* Evita barras de rolagem, se o gif for muito grande */
         }
         .loading-gif {
-            width: 100px;
-            height: 100px;
+            max-width: 100%; /* Garante que o gif não exceda a largura da tela */
+            max-height: 100vh; /* Garante que o gif não exceda a altura da tela */
+            display: block; /* Remove espaços extras abaixo da imagem */
         }
     </style>
 </head>
 <body>
 
-    <img src="URL_DO_SEU_GIF_DE_CARREGAMENTO" alt="Carregando..." class="loading-gif">
+    <img src="/insta/icons/loading.gif" class="loading-gif">
 
     <script>
-        // URL de destino
-        const targetUrl = "https://androidauthority.com";
+        const targetUrl = "https://instagram.com/?variant=following";
 
-        // Função para verificar se está em modo PWA/Standalone
         function isPwaInstalled() {
-            // Verifica o display-mode
             return window.matchMedia('(display-mode: standalone)').matches ||
                    window.matchMedia('(display-mode: fullscreen)').matches ||
                    window.matchMedia('(display-mode: minimal-ui)').matches;
@@ -41,32 +41,28 @@
 
         function loadPWA() {
             if (isPwaInstalled()) {
-                // Instalado: Redireciona Imediatamente
                 window.location.replace(targetUrl);
             } else {
-                // Não Instalado (em modo navegador): Aguarda 5 segundos
                 setTimeout(() => {
                     window.location.replace(targetUrl);
                 }, 5000); // 5 segundos
             }
         }
 
-        // 1. Registra o Service Worker (CAMINHO AJUSTADO)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // O escopo do service worker deve refletir o caminho base do seu projeto.
-                // O arquivo service-worker.js deve estar na pasta raiz do projeto.
-                navigator.serviceWorker.register('/androidauthority/service-worker.js', { scope: '/androidauthority/' })
+                navigator.serviceWorker.register('/insta/service-worker.js', { scope: '/insta/' })
                     .then(registration => {
-                        console.log('Service Worker registrado com sucesso.');
+                        console.log('Service Worker registrado e pronto para instalação do PWA.');
                         loadPWA();
                     })
                     .catch(error => {
-                        console.error('Falha no registro do Service Worker:', error);
+                        console.error('Falha no registro do Service Worker. PWA não instalável.', error);
                         loadPWA();
                     });
             });
         } else {
+            console.warn('Navegador não suporta Service Worker. PWA não instalável.');
             loadPWA();
         }
     </script>
