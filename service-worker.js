@@ -1,13 +1,13 @@
-const CACHE_NAME = 'android-authority-pwa-cache-v1';
+const CACHE_NAME = 'insta-pwa-cache-v1';
 // CAMINHOS AJUSTADOS
 const urlsToCache = [
-    '/androidauthority/',
-    '/androidauthority/index.html',
-    '/androidauthority/manifest.json',
-    '/androidauthority/icons/icon-192x192.png',
-    '/androidauthority/icons/icon-512x512.png'
+    '/insta/',
+    '/insta/index.html',
+    '/insta/manifest.json',
+    '/insta/icons/icon-192x192.png',
+    '/insta/icons/icon-512x512.png'
     // Adicione o caminho do seu GIF aqui se estiver local
-    // '/androidauthority/caminho/do/seu/gif.gif' 
+    // '/insta/caminho/do/seu/gif.gif' 
 ];
 
 self.addEventListener('install', event => {
